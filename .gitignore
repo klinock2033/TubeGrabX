@@ -1,0 +1,41 @@
+# --- Python cache ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- IDE files ---
+.idea/
+.vscode/
+
+# --- Logs & runtime output ---
+logs/
+*.log
+
+# --- App data (cache, temp downloads, thumbnails) ---
+cache/
+temp/
+downloads/
+thumbnails/
+data/
+
+# --- Config files (local only) ---
+*.local.json
+*.env
+
+# --- Build artifacts (PyInstaller, cx_Freeze, Nuitka) ---
+build/
+dist/
+*.spec
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- Pip tools ---
+pip-wheel-metadata/
