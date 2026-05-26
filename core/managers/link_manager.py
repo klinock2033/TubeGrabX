@@ -47,8 +47,20 @@ class LinkManager:
 
 
     def update_status(self, link: str, status: str) -> bool:
-        link = link.strip()
-        link = link.lower()
+
+        status = self.normalize_text(status)
+        link = self.normalize_text(link)
+
+        valid_status = {
+            'new',
+            'error',
+            'processing',
+            'finished',
+            'retried',
+        }
+
+        if status not in valid_status:
+            raise Exception(f"Invalid status: {status}")
 
         for pl in self.links:
             if pl.link == link:
@@ -59,7 +71,43 @@ class LinkManager:
         return False
 
     def remove_link(self, link: str):
-        ...
+        for pl in self.links:
+            if pl.link == link:
+                self.links.remove(pl)
+                self.save()
+                return True
+
+        return False
+
+
+    def set_link_active(self, link: str, value:bool):
+        if not isinstance(value, bool):
+            raise Exception(f"Invalid data type, can't activate link")
+
+        link = self.normalize_text(link)
+
+        if link == "*":
+            for pl in self.links:
+                pl.active = value
+
+        if link != "*" and link != "":
+            for pl in self.links:
+                if pl.link == link:
+                    pl.active = value
+        self.save()
 
     def get_active_links(self):
-        ...
+        active_links = []
+        for pl in self.links:
+            if pl.active:
+                active_links.append(pl)
+        return active_links
+
+    @staticmethod
+    def normalize_text(text: str):
+        if not isinstance(text, str):
+            raise Exception(f"Invalid data type, can't normalize text")
+        text = text.strip()
+        text = text.lower()
+        return text
+
