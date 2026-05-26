@@ -46,8 +46,17 @@ class LinkManager:
 
 
 
-    def update_status(self, link: str, status: str):
-        ...
+    def update_status(self, link: str, status: str) -> bool:
+        link = link.strip()
+        link = link.lower()
+
+        for pl in self.links:
+            if pl.link == link:
+                pl.status = status
+                self.save()
+                return True
+
+        return False
 
     def remove_link(self, link: str):
         ...
